@@ -20,7 +20,7 @@ security:
             stateless: true
             provider: app_user_provider
             json_login:
-                check_path: /authentication_token
+                check_path: /api/authentication_token
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -28,8 +28,10 @@ security:
             jwt: ~
 
     access_control:
+        - { path: ^/api/ressources, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/reservations, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/api, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
-        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/api/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
