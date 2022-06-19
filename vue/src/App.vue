@@ -33,7 +33,7 @@
             <v-list-item-title>{{ $t("home") }}</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-on:click="$router.push('/reservation')">
+          <v-list-item v-on:click="$router.push('/reservation').catch(err => {})">
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
             </v-list-item-icon>

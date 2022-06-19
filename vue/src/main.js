@@ -16,6 +16,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueI18n);
 
+
 const messages = local;
 
 // Create VueI18n instance with options

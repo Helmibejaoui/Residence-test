@@ -18,7 +18,7 @@ class Reservation
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $status;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'integer')]
     private ?string $cin;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -33,10 +33,10 @@ class Reservation
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $type;
 
-    #[ORM\Column(type: 'float')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?string $advance;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $dataAdvance;
 
     #[ORM\Column(type: 'datetime')]
@@ -66,12 +66,12 @@ class Reservation
         return $this;
     }
 
-    public function getCin(): ?string
+    public function getCin(): ?int
     {
         return $this->cin;
     }
 
-    public function setCin(string $cin): self
+    public function setCin(int $cin): self
     {
         $this->cin = $cin;
 
