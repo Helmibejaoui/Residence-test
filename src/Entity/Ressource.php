@@ -2,31 +2,40 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\RessourceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]
-#[ApiResource]
+#[ApiFilter(SearchFilter::class, properties: ["reservations"=>"exact"])]
+#[ApiResource(normalizationContext: ['groups' => ['ressource']])]
 class Ressource
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["reservation","ressource"])]
     protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Groups(["reservation","ressource"])]
     private ?string $code;
 
     #[ORM\Column(type: 'float')]
+    #[Groups(["reservation","ressource"])]
     private ?float $price;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(["reservation","ressource"])]
     private ?int $capacity;
 
     #[ORM\OneToMany(mappedBy: 'ressource', targetEntity: Reservation::class)]
+    #[Groups(["ressource"])]
     private Collection $reservations;
 
     public function __construct()

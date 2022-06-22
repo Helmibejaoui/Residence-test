@@ -23,7 +23,7 @@ class ReservationService {
     }
 
     post(reservation) {
-        return axios.post('http://localhost:8000/api/reservations/', reservation, {headers: authHeader()}
+        return axios.post('http://localhost:8000/api/reservations', reservation, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data;
@@ -39,6 +39,8 @@ class ReservationService {
             },
         )
     }
+
+
 
 }
 

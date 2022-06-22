@@ -39,6 +39,12 @@
             </v-list-item-icon>
             <v-list-item-title>{{ $t("reservation") }}</v-list-item-title>
           </v-list-item>
+          <v-list-item v-on:click="$router.push('/ressources').catch(err => {})">
+            <v-list-item-icon>
+              <v-icon>mdi-home</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ $t("ressources") }}</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

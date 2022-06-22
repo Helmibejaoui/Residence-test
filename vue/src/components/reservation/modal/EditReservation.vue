@@ -65,7 +65,7 @@ export default {
             type: 'select',
             label: 'Status',
             model: 'status',
-            values: ['Valider', 'Anuller'],
+            values: ['Valider', 'Annuler'],
             required: true
           },
           {

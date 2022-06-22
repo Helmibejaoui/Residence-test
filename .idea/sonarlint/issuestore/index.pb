@@ -13,19 +13,15 @@ M
 config/packages/doctrine.yaml,8/4/8407b4a9f249ef233d425138c0e8540c756c614a
 C
 src/Entity/User.php,0/a/0a3e99b9da178509aeb5b3fa6f5dce46bc0eb8be
-D
-config/services.yaml,8/7/87042d1f46b57381244d70e7a42feeb7710727dc
 L
 config/packages/routing.yaml,0/0/001fdc7418679b6419e44b1142ab051819764ece
 B
 config/routes.yaml,b/a/baef02989dedf0ec859f7bce087a69f29bef2b72
 M
 config/packages/security.yaml,c/5/c5f941b4d4e9404f23935164fabdd261abb68e93
-L
-src/OpenApi/JwtDecorator.php,4/1/4117ff88a991f657f66b0d3322fd67277c30a94e
-H
-src/Entity/Ressource.php,e/0/e089cae6a9103c956f0da4a438b803dff15a4cfe
-G
-vue/src/router/index.js,e/2/e23c1140168187b25d5bad9b5077540195132bba
-F
-vue/src/local/index.js,2/7/272b803c996253629c0ea78ed43cd7ca3fa4ecf0
+S
+#vue/src/service/auth/auth-header.js,2/d/2d7fb2bb456e5f32feae1b2ce99a79cf5ed9783c
+R
+"vue/src/helpers/httpInterceptor.js,6/2/62c52cd2a4fc036f16b1344e16c8060d67192c3b
+?
+vue/src/main.js,4/6/4632e83dd13cd44590e19ca99ce734a59c1961a9

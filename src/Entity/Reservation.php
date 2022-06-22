@@ -3,50 +3,65 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-#[ApiResource]
+#[ApiResource(normalizationContext: ['groups' => ['reservation']])]
 class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["reservation","ressource"])]
     protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["reservation","ressource"])]
     private ?string $status;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(["reservation","ressource"])]
     private ?string $cin;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["reservation","ressource"])]
     private ?string $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["reservation","ressource"])]
     private ?string $lastname;
 
     #[ORM\Column(type: 'float')]
+    #[Groups(["reservation","ressource"])]
     private ?float $payment;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(["reservation","ressource"])]
     private ?string $type;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Groups(["reservation","ressource"])]
     private ?string $advance;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(["reservation","ressource"])]
     private ?\DateTimeInterface $dataAdvance;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'date')]
+    #[Groups(["reservation","ressource"])]
     private ?\DateTimeInterface $startAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'date')]
+    #[Groups(["reservation","ressource"])]
     private ?\DateTimeInterface $endAt;
 
     #[ORM\ManyToOne(targetEntity: Ressource::class, inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups("reservation")]
+    #[ApiSubresource]
     private ?Ressource $ressource;
 
     public function getId(): ?int

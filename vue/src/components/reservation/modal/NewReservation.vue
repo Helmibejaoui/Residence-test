@@ -3,7 +3,7 @@
     <v-col cols="auto">
       <v-dialog
           transition="dialog-bottom-transition"
-          max-width="600"
+          max-width="700"
           v-model="dialog"
 
       >
@@ -23,10 +23,19 @@
               <v-toolbar-title>New Reservation</v-toolbar-title>
             </v-toolbar>
             <v-container>
-              <form @submit.prevent="post">
-                <vue-form-generator :schema="schema" :model="reservation" :options="formOptions"
-                                    class="panel-body"></vue-form-generator>
-              </form>
+              <v-col>
+                <v-row>
+                  <v-text-field label="Payment" readonly v-model="payment">Test</v-text-field>
+                </v-row>
+                <v-row>
+                  <form @submit.prevent="post">
+
+                    <vue-form-generator :schema.sync="schema" :model.sync="reservation" :options.sync="formOptions"
+                                        class="panel-body"></vue-form-generator>
+                  </form>
+                </v-row>
+
+              </v-col>
             </v-container>
 
 
@@ -60,85 +69,10 @@ export default {
   props: ['ressources'],
   data: () => {
     return {
+      payment: 0,
       dialog: false,
       reservation: {},
-      schema: {
-        fields: [
-          {
-            type: 'input',
-            inputType: 'text',
-            label: 'Nom',
-            model: 'lastname',
-            required: true
-          },
-          {
-            type: 'input',
-            inputType: 'text',
-            label: 'Prenom',
-            model: 'firstname',
-            featured: true,
-            required: true
-          },
-          {
-            type: 'input',
-            inputType: 'number',
-            label: 'CIN',
-            model: 'cin',
-            min: 8,
-            required: true,
-          },
-          {
-            type: 'input',
-            inputType: 'number',
-            label: 'Payment',
-            model: 'payment',
-            required: true,
-          },
-          {
-            type: 'input',
-            inputType: 'text',
-            label: 'Type',
-            model: 'type',
-            required: true,
-          },
-          {
-            type: 'input',
-            inputType: 'number',
-            label: 'Avance',
-            model: 'advance',
-          },
-          {
-            type: 'input',
-            inputType: 'date',
-            label: "Date d'Avance",
-            model: 'dataAdvance',
-          },
-          {
-            type: 'input',
-            inputType: 'date',
-            label: "Date debut",
-            model: 'startAt',
-            required: true,
-          },
-          {
-            type: 'input',
-            inputType: 'date',
-            label: "Date de fin",
-            model: 'endAt',
-            required: true,
-          },
-          {
-            type: 'select',
-            label: 'Ressource',
-            model: 'ressource',
-            values: []
-          },
-          {
-            type: 'submit',
-            buttonText: 'Valider'
-          },
-        ]
-      },
+      schema: {},
       formOptions: {
         validateAfterLoad: true,
         validateAfterChanged: true,
@@ -165,18 +99,118 @@ export default {
       this.$emit('reservations');
       this.dialog = false;
     },
+    checkReservations() {
+      let self = this;
+      if (this.reservation && this.reservation.startAt && this.reservation.endAt) {
+        let fiel = this.schema.fields.find(field => field.model === 'ressource');
+        fiel.values = this.ressources.map(
+            function (ressource) {
+              let exist = ressource.reservations.filter((r) =>
+                  (new Date(r.startAt).getTime() <= self.reservation.startAt || new Date(r.startAt).getTime() < self.reservation.endAt)
+                  && (new Date(r.endAt).getTime() > self.reservation.startAt || new Date(r.endAt).getTime() >= self.reservation.endAt));
+              if (exist.length === 0) {
+                ressource['name'] = ressource.code;
+                ressource['id'] = ressource['@id'];
+                return ressource
+              }
+
+            }
+        ).filter(x => typeof x !== "undefined");
+      }
+    },
+    assignPrice(newVal, field) {
+      let self = this;
+      let reservation = self.ressources.find((r) => r['@id'] === field);
+      self.payment = reservation.price * ((newVal.endAt - newVal.startAt) / (1000 * 3600 * 24));
+      self.reservation.payment = reservation.price * ((newVal.endAt - newVal.startAt) / (1000 * 3600 * 24));
+
+    }
   },
+
   mounted() {
-    let fiel = this.schema.fields.find(field => field.model === 'ressource');
-    fiel.values = this.ressources.map(
-        function (ressource) {
-          ressource['name'] = ressource.code;
-          ressource['id'] = ressource['@id'];
-          return ressource
-        }
-    );
+    let self = this;
+    this.schema = {
+      deep: true,
+      immediate: true,
+      fields: [
+        {
+          type: 'input',
+          inputType: 'text',
+          label: 'Nom',
+          model: 'lastname',
+          required: true
+        },
+        {
+          type: 'input',
+          inputType: 'text',
+          label: 'Prenom',
+          model: 'firstname',
+          required: true
+        },
+        {
+          type: 'input',
+          inputType: 'number',
+          label: 'CIN',
+          model: 'cin',
+          min: 8,
+          required: true,
+        },
+        {
+          type: 'input',
+          inputType: 'text',
+          label: 'Type',
+          model: 'type',
+          required: true,
+        },
+        {
+          type: 'input',
+          inputType: 'number',
+          label: 'Avance',
+          model: 'advance',
+        },
+        {
+          type: 'input',
+          inputType: 'date',
+          label: "Date d'Avance",
+          model: 'dataAdvance',
+        },
+        {
+          type: 'input',
+          inputType: 'date',
+          label: "Date debut",
+          model: 'startAt',
+          required: true,
+          onChanged() {
+            self.checkReservations()
+          }
+        },
+        {
+          type: 'input',
+          inputType: 'date',
+          label: "Date de fin",
+          model: 'endAt',
+          required: true,
+          onChanged() {
+            self.checkReservations()
+          }
+        },
+        {
+          type: 'select',
+          label: 'Ressource',
+          model: 'ressource',
+          values: [],
+          onChanged: function (newVal, field) {
+            self.assignPrice(newVal, field);
+          },
+        },
+        {
+          type: 'submit',
+          buttonText: 'Valider'
+        },
+      ]
+    }
   },
-  computed: {}
+
 }
 </script>
 

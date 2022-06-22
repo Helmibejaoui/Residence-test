@@ -2,11 +2,13 @@ export const local = {
     en: {
         title: 'Title',
         home: 'Home',
-        reservation: 'Reservation'
+        reservation: 'Reservation',
+        ressources: 'Ressources',
     },
     fr: {
         title: 'Titre',
         home: 'Acceuil',
-        reservation: 'Reservation'
+        reservation: 'Reservation',
+        ressources: 'Ressources',
     }
 }

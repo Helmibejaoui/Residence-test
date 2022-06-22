@@ -103,7 +103,7 @@
                                v-if="ressources.length > 0"
                                @reservations="getReservations" :ressources="ressources"
                                :item="reservation"/>
-              
+
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-btn icon @click="selectedOpen = false">
@@ -191,13 +191,16 @@ export default {
     updateRange() {
       let res = this.$store.state.reservation.reservations;
       const events = []
-
+      ;
       for (const element of res) {
+        let startAt = new Date(element.startAt);
+        let endAt = new Date(element.endAt);
         events.push({
+          ressource: element.ressource,
           id: element.id,
-          name: element.firstname + ' ' + element.lastname,
-          start: new Date(element.startAt),
-          end: new Date(element.endAt),
+          name: element.firstname + ' ' + element.lastname + ' ' + element.ressource.code,
+          start: startAt.setHours(startAt.getHours() + 2),
+          end: endAt.setHours(endAt.getHours() + 2),
           color: 'blue',
           timed: 0,
         })

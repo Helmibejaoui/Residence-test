@@ -28,6 +28,48 @@ export const ressource = {
                 }
             )
         },
+        post({commit}, ressource) {
+            commit('loadingStatus', true);
+            return RessourceService.post(ressource).then(
+                (response) => {
+                    commit('loadingStatus', true);
+                    return Promise.resolve(response);
+                },
+                (error) => {
+                    commit('postRessourcesFailure', error.response.data);
+                    commit('loadingStatus', false);
+                    return Promise.reject(error);
+                }
+            )
+        },
+        put({commit}, ressource) {
+            commit('loadingStatus', true);
+            return RessourceService.put(ressource).then(
+                (response) => {
+                    commit('loadingStatus', true);
+                    return Promise.resolve(response);
+                },
+                (error) => {
+                    commit('putRessourcesFailure', error.response.data);
+                    commit('loadingStatus', false);
+                    return Promise.reject(error);
+                }
+            )
+        },
+        delete({commit}, ressource) {
+            commit('loadingStatus', true);
+            return RessourceService.delete(ressource).then(
+                (response) => {
+                    commit('loadingStatus', true);
+                    return Promise.resolve(response);
+                },
+                (error) => {
+                    commit('deleteRessourcesFailure', error.response.data);
+                    commit('loadingStatus', false);
+                    return Promise.reject(error);
+                }
+            )
+        },
     },
     mutations: {
         loadingStatus(state, status) {
@@ -37,6 +79,15 @@ export const ressource = {
             state.ressources = response;
         },
         getRessourcesFailure(state, error) {
+            state.error = error;
+        },
+        postRessourcesFailure(state, error) {
+            state.error = error;
+        },
+        putRessourcesFailure(state, error) {
+            state.error = error;
+        },
+        deleteRessourcesFailure(state, error) {
             state.error = error;
         },
     }
