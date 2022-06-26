@@ -20,7 +20,7 @@
               >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-toolbar-title>New Reservation</v-toolbar-title>
+              <v-toolbar-title>Nouveau Reservation</v-toolbar-title>
             </v-toolbar>
             <v-container>
               <v-col>

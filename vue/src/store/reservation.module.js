@@ -14,9 +14,9 @@ export const reservation = {
     namespaced: true,
     state: initialState,
     actions: {
-        getAll({commit}) {
+        getAll({commit},filter) {
             commit('loadingStatus', true);
-            return ReservationService.getAll().then(
+            return ReservationService.getAll(filter).then(
                 (response) => {
                     commit('getReservationsSuccess', response);
                     commit('loadingStatus', true);

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,20 +41,21 @@ class ReservationRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Reservation[] Returns an array of Reservation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Reservation[] Returns an array of Reservation objects
+     */
+    public function findByDate($value): array
+    {
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select('SUM(r.payment) as sum')
+            ->from(Reservation::class, 'r')
+            ->andWhere('r.startAt = :val')
+            ->setParameter('val', $value)
+            ->groupBy('r.startAt')
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
 
 //    public function findOneBySomeField($value): ?Reservation
 //    {

@@ -4,8 +4,8 @@ import authHeader from "../auth/auth-header";
 
 class ReservationService {
 
-    getAll() {
-        return axios.get('http://localhost:8000/api/reservations', {headers: authHeader()}
+    getAll(filter) {
+        return axios.get('http://localhost:8000/api/reservations' + (filter ? '?startAt='+filter.date+'&status='+filter.status : ''), {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data['hydra:member'];
@@ -39,7 +39,6 @@ class ReservationService {
             },
         )
     }
-
 
 
 }

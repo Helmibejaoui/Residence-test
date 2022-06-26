@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click="logout">Logout</v-btn>
+  <v-btn @click="logout">Déconnexion</v-btn>
 </template>
 
 <script>
@@ -8,7 +8,8 @@ export default {
   methods: {
     async logout() {
       await this.$store.dispatch('auth/logout');
-      this.$router.push('/login').then(() => {})
+      this.$router.push('/login').then(() => {
+      })
     }
   }
 }
