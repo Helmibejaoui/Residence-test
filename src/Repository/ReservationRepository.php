@@ -52,6 +52,7 @@ class ReservationRepository extends ServiceEntityRepository
             ->from(Reservation::class, 'r')
             ->andWhere('r.startAt = :val')
             ->setParameter('val', $value)
+            ->andWhere("r.status = 'Valider'")
             ->groupBy('r.startAt')
             ->getQuery()
             ->getResult(AbstractQuery::HYDRATE_ARRAY);

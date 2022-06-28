@@ -50,16 +50,21 @@ export default {
   }),
   methods: {
     getReservation() {
-      this.$store.dispatch('reservation/getAll', {date: new Date().toISOString().slice(0, 10), status: 'Confirmer'});
+      let date = new Date();
+      date.setHours(date.getHours() + 1)
+      this.$store.dispatch('reservation/getAll', {
+        date: date.toISOString().slice(0, 10),
+        status: 'Valider'
+      });
     },
     getCheck() {
       this.$store.dispatch('check/getCheck');
     }
   },
   mounted() {
-    console.log(new Date().toISOString())
     this.getReservation();
     this.getCheck();
+
   },
   computed: {
     reservations() {

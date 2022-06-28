@@ -152,6 +152,10 @@ export default {
   },
   methods: {
     async edit() {
+      let startAt = new Date(this.item.startAt);
+      let endAt = new Date(this.item.endAt);
+      startAt.setHours(startAt.getHours() + 2);
+      endAt.setHours(endAt.getHours() + 2);
       let toEdit = {
         id: this.item.id,
         status: this.item.status,
@@ -162,9 +166,9 @@ export default {
         type: this.item.type,
         advance: this.item.advance,
         dateAdvance: this.item.dateAdvance ? new Date(this.item.dateAdvance).toISOString() : null,
-        startAt: new Date(this.item.startAt).toISOString(),
-        endAt: new Date(this.item.endAt).toISOString(),
-        ressource: this.item.ressource
+        startAt: startAt.toISOString(),
+        endAt: endAt.toISOString(),
+        ressource: this.item.ressource['@id']
       }
       await this.$store.dispatch("reservation/put", toEdit);
       this.$emit('reservations');

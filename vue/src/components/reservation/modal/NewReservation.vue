@@ -82,6 +82,10 @@ export default {
   },
   methods: {
     async post() {
+      let startAt = new Date(this.reservation.startAt);
+      let endAt = new Date(this.reservation.endAt);
+      startAt.setHours(startAt.getHours() + 2);
+      endAt.setHours(endAt.getHours() + 2);
       let toPost = {
         status: 'En cours',
         firstname: this.reservation.firstname,
@@ -91,8 +95,8 @@ export default {
         type: this.reservation.type,
         advance: this.reservation.advance,
         dateAdvance: this.reservation.dateAdvance ? new Date(this.reservation.dateAdvance).toISOString() : null,
-        startAt: new Date(this.reservation.startAt).toISOString(),
-        endAt: new Date(this.reservation.endAt).toISOString(),
+        startAt: startAt.toISOString(),
+        endAt: endAt.toISOString(),
         ressource: this.reservation.ressource
       }
       await this.$store.dispatch("reservation/post", toPost);
@@ -101,13 +105,17 @@ export default {
     },
     checkReservations() {
       let self = this;
-      if (this.reservation && this.reservation.startAt && this.reservation.endAt) {
-        let fiel = this.schema.fields.find(field => field.model === 'ressource');
-        fiel.values = this.ressources.map(
+      let startAt = new Date(self.reservation.startAt);
+      let endAt = new Date(self.reservation.endAt);
+      startAt.setHours(startAt.getHours() + 1);
+      endAt.setHours(endAt.getHours() + 1);
+      if (self.reservation && self.reservation.startAt && self.reservation.endAt) {
+        let fiel = self.schema.fields.find(field => field.model === 'ressource');
+        fiel.values = self.ressources.map(
             function (ressource) {
               let exist = ressource.reservations.filter((r) =>
-                  (new Date(r.startAt).getTime() <= self.reservation.startAt || new Date(r.startAt).getTime() < self.reservation.endAt)
-                  && (new Date(r.endAt).getTime() > self.reservation.startAt || new Date(r.endAt).getTime() >= self.reservation.endAt));
+                  (new Date(r.startAt).getTime() <= startAt || new Date(r.startAt).getTime() < endAt)
+                  && (new Date(r.endAt).getTime() > startAt || new Date(r.endAt).getTime() >= endAt));
               if (exist.length === 0) {
                 ressource['name'] = ressource.code;
                 ressource['id'] = ressource['@id'];
