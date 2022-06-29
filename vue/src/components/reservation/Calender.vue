@@ -116,7 +116,7 @@
       </v-sheet>
       <v-row>
         <v-spacer></v-spacer>
-        <NewReservation v-if="ressources.length > 0" @reservations="getReservations" :ressources="ressources"/>
+        <NewReservation v-if="ressources.length >= 0" @reservations="getReservations" :ressources="ressources"/>
         <v-spacer></v-spacer>
       </v-row>
     </v-col>
