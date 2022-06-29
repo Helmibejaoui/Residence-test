@@ -1,11 +1,12 @@
 import axios from "axios";
 import authHeader from "../auth/auth-header";
 
+let url = 'http://ip172-18-0-36-cau5uf433d5g00cl7bkg-8000.direct.labs.play-with-docker.com';
 
 class ReservationService {
 
     getAll(filter) {
-        return axios.get('http://localhost:8000/api/reservations' + (filter ? '?startAt='+filter.date+'&status='+filter.status : ''), {headers: authHeader()}
+        return axios.get(url+'/api/reservations' + (filter ? '?startAt=' + filter.date + '&status=' + filter.status : ''), {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data['hydra:member'];
@@ -14,7 +15,7 @@ class ReservationService {
     }
 
     getById(id) {
-        return axios.get('http://localhost:8000/api/reservations/' + id, {headers: authHeader()}
+        return axios.get(url+'/api/reservations/' + id, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data;
@@ -23,7 +24,7 @@ class ReservationService {
     }
 
     post(reservation) {
-        return axios.post('http://localhost:8000/api/reservations', reservation, {headers: authHeader()}
+        return axios.post(url+'/api/reservations', reservation, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data;
@@ -32,7 +33,7 @@ class ReservationService {
     }
 
     put(reservation) {
-        return axios.put('http://localhost:8000/api/reservations/' + reservation.id, reservation, {headers: authHeader()}
+        return axios.put(url+'/api/reservations/' + reservation.id, reservation, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data;

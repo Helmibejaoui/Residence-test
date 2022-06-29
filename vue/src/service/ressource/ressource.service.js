@@ -1,11 +1,12 @@
 import axios from "axios";
 import authHeader from "../auth/auth-header";
 
+let url = 'http://ip172-18-0-36-cau5uf433d5g00cl7bkg-8000.direct.labs.play-with-docker.com';
 
 class RessourceService {
 
     getAll() {
-        return axios.get('http://localhost:8000/api/ressources', {headers: authHeader()}
+        return axios.get(url + '/api/ressources', {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data['hydra:member'];
@@ -14,7 +15,7 @@ class RessourceService {
     }
 
     post(ressource) {
-        return axios.post('http://localhost:8000/api/ressources', ressource, {headers: authHeader()}
+        return axios.post(url + '/api/ressources', ressource, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data['hydra:member'];
@@ -23,15 +24,16 @@ class RessourceService {
     }
 
     put(ressource) {
-        return axios.put('http://localhost:8000/api/ressources/' + ressource.id, ressource, {headers: authHeader()}
+        return axios.put(url + '/api/ressources/' + ressource.id, ressource, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data;
             },
         )
     }
+
     delete(ressource) {
-        return axios.delete('http://localhost:8000/api/ressources/' + ressource.id, {headers: authHeader()}
+        return axios.delete(url + '/api/ressources/' + ressource.id, {headers: authHeader()}
         ).then(
             (response) => {
                 return response.data;
