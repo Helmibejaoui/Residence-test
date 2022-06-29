@@ -4,7 +4,7 @@ import axios from "axios";
 class AuthService {
 
     login(user) {
-        return axios.post('http://http://ip172-18-0-36-cau5uf433d5g00cl7bkg-8000.direct.labs.play-with-docker.com/api/authentication_token', {
+        return axios.post('http://ip172-18-0-36-cau5uf433d5g00cl7bkg-8000.direct.labs.play-with-docker.com/api/authentication_token', {
                 email: user.email,
                 password: user.password
             }
@@ -19,7 +19,7 @@ class AuthService {
     }
 
     logout() {
-        return axios.get('http://http://ip172-18-0-36-cau5uf433d5g00cl7bkg-8000.direct.labs.play-with-docker.com/api'
+        return axios.get('http://ip172-18-0-36-cau5uf433d5g00cl7bkg-8000.direct.labs.play-with-docker.com/api'
         ).then(
             (response) => {
                 localStorage.removeItem('token');
