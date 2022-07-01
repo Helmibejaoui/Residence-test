@@ -158,7 +158,7 @@ export default {
 
   methods: {
     getRessources() {
-      this.$store.dispatch('ressource/getAll');
+      this.$store.dispatch('ressource/getAll',{});
     },
 
     editItem(item) {
