@@ -12,26 +12,26 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RessourceRepository::class)]
-#[ApiFilter(SearchFilter::class, properties: ["reservations"=>"exact"])]
-#[ApiResource(normalizationContext: ['groups' => ['ressource']])]
+#[ApiFilter(SearchFilter::class, properties: ["reservations.status" => "exact"])]
+#[ApiResource(attributes: ['pagination_enabled' => false], normalizationContext: ['groups' => ['ressource']])]
 class Ressource
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["reservation","ressource"])]
+    #[Groups(["reservation", "ressource"])]
     protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups(["reservation","ressource"])]
+    #[Groups(["reservation", "ressource"])]
     private ?string $code;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(["reservation","ressource"])]
+    #[Groups(["reservation", "ressource"])]
     private ?float $price;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(["reservation","ressource"])]
+    #[Groups(["reservation", "ressource"])]
     private ?int $capacity;
 
     #[ORM\OneToMany(mappedBy: 'ressource', targetEntity: Reservation::class)]
@@ -42,7 +42,7 @@ class Ressource
     {
         $this->reservations = new ArrayCollection();
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;

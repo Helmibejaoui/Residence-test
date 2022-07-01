@@ -13,9 +13,9 @@ export const ressource = {
     namespaced: true,
     state: initialState,
     actions: {
-        getAll({commit}) {
+        getAll({commit},filter) {
             commit('loadingStatus', true);
-            return RessourceService.getAll().then(
+            return RessourceService.getAll(filter).then(
                 (response) => {
                     commit('getRessourcesSuccess', response);
                     commit('loadingStatus', true);

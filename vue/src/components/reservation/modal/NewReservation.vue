@@ -25,7 +25,7 @@
             <v-container>
               <v-col>
                 <v-row>
-                  <v-text-field label="Payment" readonly v-model="payment">Test</v-text-field>
+                  <v-text-field label="Payment" readonly v-model="payment"></v-text-field>
                 </v-row>
                 <v-row>
                   <form @submit.prevent="post">
@@ -48,6 +48,7 @@
               dark
               v-bind="attrs"
               v-on="on"
+              @click="reservation={}"
           >
             Cree reservation
           </v-btn>
@@ -81,41 +82,40 @@ export default {
     }
   },
   methods: {
+    fixDate(date) {
+      return new Date(new Date(date).toLocaleDateString('en-US', {
+        timeZone: 'Africa/Tunis',
+      }));
+    },
     async post() {
-      let startAt = new Date(this.reservation.startAt);
-      let endAt = new Date(this.reservation.endAt);
-      startAt.setHours(startAt.getHours() + 2);
-      endAt.setHours(endAt.getHours() + 2);
       let toPost = {
         status: 'En cours',
         firstname: this.reservation.firstname,
         lastname: this.reservation.lastname,
         cin: this.reservation.cin,
-        payment: this.reservation.payment,
+        payment: this.payment,
         type: this.reservation.type,
         advance: this.reservation.advance,
-        dateAdvance: this.reservation.dateAdvance ? new Date(this.reservation.dateAdvance).toISOString() : null,
-        startAt: startAt.toISOString(),
-        endAt: endAt.toISOString(),
+        dateAdvance: this.reservation.dateAdvance ? this.fixDate(this.reservation.dateAdvance).toLocaleDateString('en-CA') : null,
+        startAt: this.fixDate(this.reservation.startAt).toLocaleDateString('en-CA'),
+        endAt: this.fixDate(this.reservation.endAt).toLocaleDateString('en-CA'),
         ressource: this.reservation.ressource
       }
       await this.$store.dispatch("reservation/post", toPost);
       this.$emit('reservations');
+      this.$emit('ressources');
       this.dialog = false;
     },
     checkReservations() {
       let self = this;
-      let startAt = new Date(self.reservation.startAt);
-      let endAt = new Date(self.reservation.endAt);
-      startAt.setHours(startAt.getHours() + 1);
-      endAt.setHours(endAt.getHours() + 1);
       if (self.reservation && self.reservation.startAt && self.reservation.endAt) {
         let fiel = self.schema.fields.find(field => field.model === 'ressource');
         fiel.values = self.ressources.map(
             function (ressource) {
               let exist = ressource.reservations.filter((r) =>
-                  (new Date(r.startAt).getTime() <= startAt || new Date(r.startAt).getTime() < endAt)
-                  && (new Date(r.endAt).getTime() > startAt || new Date(r.endAt).getTime() >= endAt));
+                  (self.fixDate(r.startAt).getTime() <= self.fixDate(self.reservation.startAt) || self.fixDate(r.startAt).getTime() < self.fixDate(self.reservation.startAt))
+                  && (self.fixDate(r.endAt).getTime() > self.fixDate(self.reservation.startAt) || self.fixDate(r.endAt).getTime() >= self.fixDate(self.reservation.startAt))
+                  && (r.status !== 'Annuler'));
               if (exist.length === 0) {
                 ressource['name'] = ressource.code;
                 ressource['id'] = ressource['@id'];
@@ -129,14 +129,14 @@ export default {
     assignPrice(newVal, field) {
       let self = this;
       let reservation = self.ressources.find((r) => r['@id'] === field);
-      self.payment = reservation.price * ((newVal.endAt - newVal.startAt) / (1000 * 3600 * 24));
-      self.reservation.payment = reservation.price * ((newVal.endAt - newVal.startAt) / (1000 * 3600 * 24));
+      self.payment = reservation.price * ((this.fixDate(newVal.endAt) - this.fixDate(newVal.startAt)) / (1000 * 3600 * 24));
 
     }
   },
 
   mounted() {
     let self = this;
+    self.reservation = {};
     this.schema = {
       deep: true,
       immediate: true,
@@ -180,7 +180,7 @@ export default {
           type: 'input',
           inputType: 'date',
           label: "Date d'Avance",
-          model: 'dataAdvance',
+          model: 'dateAdvance',
         },
         {
           type: 'input',

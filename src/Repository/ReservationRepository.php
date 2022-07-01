@@ -48,7 +48,7 @@ class ReservationRepository extends ServiceEntityRepository
     {
         return $this->getEntityManager()
             ->createQueryBuilder()
-            ->select('SUM(r.payment) as sum')
+            ->select(' SUM(r.payment) - SUM(r.advance) as sum')
             ->from(Reservation::class, 'r')
             ->andWhere('r.startAt = :val')
             ->setParameter('val', $value)

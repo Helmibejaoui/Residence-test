@@ -44,16 +44,21 @@ export default {
       {text: 'Date de debut', value: 'startAt'},
       {text: 'Date de fin', value: 'endAt'},
       {text: 'Payment', value: 'payment'},
+      {text: 'Avance', value: 'advance'},
+      {text: "Date d'avance", value: 'dateAdvance'},
       {text: 'Ressource', value: 'ressource.code'},
       {text: 'Statut', value: 'status'},
     ],
   }),
   methods: {
+    fixDate() {
+      return new Date(new Date().toLocaleDateString('en-US', {
+        timeZone: 'Africa/Tunis',
+      }));
+    },
     getReservation() {
-      let date = new Date();
-      date.setHours(date.getHours() + 1)
       this.$store.dispatch('reservation/getAll', {
-        date: date.toISOString().slice(0, 10),
+        startAt: this.fixDate().toLocaleDateString('en-CA'),
         status: 'Valider'
       });
     },

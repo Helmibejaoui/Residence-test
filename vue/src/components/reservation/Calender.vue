@@ -100,9 +100,9 @@
                 dark
             >
               <EditReservation style="justify-content: normal !important;"
-                               v-if="ressources.length > 0"
-                               @reservations="getReservations" :ressources="ressources"
-                               :item="reservation"/>
+                               v-if="ressources.length >= 0"
+                               @reservations="getReservations" @ressources="getRessources" :ressources="ressources"
+                               :id.sync="selectedEvent.id"/>
 
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
@@ -116,7 +116,8 @@
       </v-sheet>
       <v-row>
         <v-spacer></v-spacer>
-        <NewReservation v-if="ressources.length >= 0" @reservations="getReservations" :ressources="ressources"/>
+        <NewReservation v-if="ressources.length >= 0" @reservations="getReservations" @ressources="getRessources"
+                        :ressources="ressources"/>
         <v-spacer></v-spacer>
       </v-row>
     </v-col>
@@ -149,12 +150,18 @@ export default {
     events: []
   }),
   async mounted() {
+
     await this.getRessources();
     await this.getReservations();
     this.updateRange()
     this.$refs.calendar.checkChange()
   },
   methods: {
+    fixDate(date) {
+      return new Date(new Date(date).toLocaleDateString('en-US', {
+        timeZone: 'Africa/Tunis',
+      }));
+    },
     viewDay({date}) {
       this.focus = date
       this.type = 'day'
@@ -173,7 +180,6 @@ export default {
     },
     showEvent({nativeEvent, event}) {
       const open = () => {
-        this.getReservation(event.id);
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
         requestAnimationFrame(() => requestAnimationFrame(() => this.selectedOpen = true))
@@ -190,17 +196,14 @@ export default {
     },
     updateRange() {
       let res = this.$store.state.reservation.reservations;
-      const events = []
-      ;
+      const events = [];
       for (const element of res) {
-        let startAt = new Date(element.startAt);
-        let endAt = new Date(element.endAt);
         events.push({
           ressource: element.ressource,
           id: element.id,
           name: element.firstname + ' ' + element.lastname + ' ' + element.ressource.code,
-          start: startAt.setHours(startAt.getHours() + 2),
-          end: endAt.setHours(endAt.getHours() + 2),
+          start: this.fixDate(element.startAt),
+          end: this.fixDate(element.endAt),
           color: 'blue',
           timed: 0,
         })
@@ -209,14 +212,12 @@ export default {
       return this.events
     },
     getReservations() {
-      this.$store.dispatch("reservation/getAll");
+      this.$store.dispatch("reservation/getAll", {status: ['En cours', 'Valider']});
     },
     getRessources() {
-      this.$store.dispatch('ressource/getAll');
+      this.$store.dispatch('ressource/getAll', {});
     },
-    getReservation(id) {
-      this.$store.dispatch('reservation/getById', id);
-    }
+
   },
   computed: {
     updateEvents() {
@@ -231,9 +232,7 @@ export default {
     ressources() {
       return this.$store.state.ressource.ressources;
     },
-    reservation() {
-      return this.$store.state.reservation.reservation;
-    }
+
   }
 }
 </script>

@@ -13,7 +13,7 @@ class CheckService
     public function getData(): string
     {
         $result = $this->repository->findByDate(date('Y-m-d'));
-        return $result[0]['sum'];
+        return $result ? $result[0]['sum'] : '0';
 
     }
 

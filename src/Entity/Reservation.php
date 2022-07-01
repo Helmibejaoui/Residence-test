@@ -8,62 +8,73 @@ use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Context;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['reservation']])]
+#[ApiResource(
+    itemOperations: ['get' => ['normalization_context' => ['groups' => 'get']],
+        'put',
+        'patch',
+        'delete'],
+    attributes: ['pagination_enabled' => false],
+    normalizationContext: ['groups' => ['reservation']])]
 #[ApiFilter(SearchFilter::class, properties: ["startAt" => "exact", "status" => "exact"])]
 class Reservation
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     protected ?int $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?string $status;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?string $cin;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?string $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?string $lastname;
 
     #[ORM\Column(type: 'float')]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?float $payment;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?string $type;
 
     #[ORM\Column(type: 'float', nullable: true)]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
     private ?string $advance;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(["reservation", "ressource"])]
-    private ?\DateTimeInterface $dataAdvance;
+    #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(["reservation", "ressource", "get"])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
+    private ?\DateTimeInterface $dateAdvance;
 
     #[ORM\Column(type: 'date')]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
     private ?\DateTimeInterface $startAt;
 
     #[ORM\Column(type: 'date')]
-    #[Groups(["reservation", "ressource"])]
+    #[Groups(["reservation", "ressource", "get"])]
+    #[Context([DateTimeNormalizer::FORMAT_KEY => 'Y-m-d'])]
     private ?\DateTimeInterface $endAt;
 
     #[ORM\ManyToOne(targetEntity: Ressource::class, inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups("reservation")]
+    #[Groups(["reservation", "get"])]
     #[ApiSubresource]
     private ?Ressource $ressource;
 
@@ -149,21 +160,21 @@ class Reservation
         return $this->advance;
     }
 
-    public function setAdvance(float $advance): self
+    public function setAdvance(?float $advance): self
     {
         $this->advance = $advance;
 
         return $this;
     }
 
-    public function getDataAdvance(): ?\DateTimeInterface
+    public function getDateAdvance(): ?\DateTimeInterface
     {
-        return $this->dataAdvance;
+        return $this->dateAdvance;
     }
 
-    public function setDataAdvance(\DateTimeInterface $dataAdvance): self
+    public function setDateAdvance(?\DateTimeInterface $dateAdvance): self
     {
-        $this->dataAdvance = $dataAdvance;
+        $this->dateAdvance = $dateAdvance;
 
         return $this;
     }
