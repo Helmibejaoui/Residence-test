@@ -1,7 +1,7 @@
 import axios from "axios";
 import authHeader from "../auth/auth-header";
 
-let url = 'http://127.0.0.1:8000';
+let url = 'http://ip172-18-0-42-cavipdejd6ng0099ljm0-8000.direct.labs.play-with-docker.com/';
 
 class ReservationService {
 
