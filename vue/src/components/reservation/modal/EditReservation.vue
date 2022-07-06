@@ -10,7 +10,7 @@
         <template>
           <v-card>
             <v-toolbar
-                color="primary"
+                color="green"
                 dark
             >
               <v-btn
@@ -20,7 +20,7 @@
               >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-toolbar-title>Edit Reservation</v-toolbar-title>
+              <v-toolbar-title>Modifier Reservation</v-toolbar-title>
             </v-toolbar>
             <v-container>
               <v-col>
@@ -87,7 +87,7 @@ export default {
         fiel.values = self.ressources.map(
             function (ressource) {
               let exist = ressource.reservations.filter((r) =>
-                  (self.fixDate(r.startAt).getTime() <= self.fixDate(self.item.startAt) || self.fixDate(r.startAt).getTime() < self.fixDate(self.item.startAt))
+                  (self.fixDate(r.startAt).getTime() <= self.fixDate(self.item.startAt) || self.fixDate(r.startAt).getTime() < self.fixDate(self.item.endAt))
                   && (self.fixDate(r.endAt).getTime() > self.fixDate(self.item.startAt) || self.fixDate(r.endAt).getTime() >= self.fixDate(self.item.startAt))
                   && (r.status !== 'Annuler'));
               if (exist.length === 0) {
@@ -104,6 +104,7 @@ export default {
       let self = this;
       let reservation = self.ressources.find((r) => r['@id'] === field);
       self.item.payment = reservation.price * ((this.fixDate(newVal.endAt).getTime() - this.fixDate(newVal.startAt).getTime()) / (1000 * 3600 * 24));
+      self.item.payment = self.item.payment >= 0 ? self.item.payment + reservation.price : 0;
 
     },
     async edit() {
@@ -216,6 +217,7 @@ export default {
           },
         },
         {
+          id:'btn',
           type: 'submit',
           buttonText: 'Valider'
         },
@@ -250,5 +252,8 @@ export default {
 fieldset {
   border: 0;
   padding: 10px 8px;
+}
+#btn{
+  background-color: green !important;
 }
 </style>

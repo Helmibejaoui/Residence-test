@@ -21,15 +21,17 @@
         </v-toolbar>
       </template>
     </v-data-table>
+
     <v-row
         class="mt-1"
         justify="end"
     >
 
-      <v-col cols="1">
+      <v-col cols="4">
         <v-text-field readonly label="Totale" v-model="check"></v-text-field>
       </v-col>
     </v-row>
+
 
   </v-col>
 </template>

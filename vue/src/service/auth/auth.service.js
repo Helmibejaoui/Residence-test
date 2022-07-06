@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let url = 'http://ip172-18-0-42-cavipdejd6ng0099ljm0-8000.direct.labs.play-with-docker.com';
+let url = 'http://localhost:8000';
 
 class AuthService {
 

@@ -3,8 +3,14 @@ import Calender from "../components/reservation/Calender";
 import VueRouter from "vue-router";
 import ListRessource from "../components/ressource/ListRessource";
 import TodayCheck from "@/components/reservation/TodayCheck";
+import Home from "@/components/authentification/Home";
 
 const routes = [
+    {
+        path: '',
+        name: 'Home',
+        component: Home
+    },
     {
         path: '/login',
         name: 'Login',

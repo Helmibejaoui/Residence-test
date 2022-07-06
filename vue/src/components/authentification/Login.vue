@@ -2,8 +2,7 @@
   <v-app>
     <v-parallax
         dark
-        src="/background.jpg"
-        height="100%"
+        style="background-color: lightgray;height: 100vh"
     >
       <v-container>
         <v-layout wrap>
@@ -17,12 +16,12 @@
                   <v-flex row align-center>
                     <v-card-title class="justify-center flex">
                       <v-img
-                          alt="Eagle eye Logo"
+                          alt="Shiri Logo"
                           class="shrink mr-2"
                           contain
-                          src="/eagle-eye-logo.png"
+                          src="/logo.jpeg"
                           transition="scale-transition"
-                          width="200"
+                          width="150"
                       />
                     </v-card-title>
                     <v-card-text>
@@ -33,7 +32,7 @@
                         <v-text-field v-model="user.password" placeholder="password" type="password"></v-text-field>
                       </v-row>
                       <v-row>
-                        <v-btn class="justify-center flex info" @click="handleLogin">Login</v-btn>
+                        <v-btn class="justify-center flex success" @click="handleLogin">Login</v-btn>
                       </v-row>
 
                     </v-card-text>

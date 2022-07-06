@@ -74,7 +74,7 @@
         <v-calendar v-if="loading && reservations"
                     ref="calendar"
                     v-model="focus"
-                    color="primary"
+                    color="green darken-2"
                     :events="updateEvents"
                     :event-color="getEventColor"
                     :type="type"
@@ -201,10 +201,10 @@ export default {
         events.push({
           ressource: element.ressource,
           id: element.id,
-          name: element.firstname + ' ' + element.lastname + ' ' + element.ressource.code,
+          name: 'Nom Prenom: '+element.firstname + ' ' + element.lastname + ' / Bangalo: ' + element.ressource.code,
           start: this.fixDate(element.startAt),
           end: this.fixDate(element.endAt),
-          color: 'blue',
+          color: '#3cb371',
           timed: 0,
         })
       }
@@ -240,6 +240,9 @@ export default {
 <style>
 .v-calendar-daily__head {
   height: 100%;
+}
+.v-event > div {
+  font-weight: bold;
 }
 
 </style>

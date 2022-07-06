@@ -3,11 +3,13 @@
     <v-app-bar
         v-if="checkConnected"
         app
-        color="blue"
+        color="green"
         dark
     >
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <v-toolbar-title>{{ $t("title") }}</v-toolbar-title>
+      <v-toolbar-title>
+        <v-img width="9vh" height="5.5vh" alt="logo" src="logo.jpeg"/>
+      </v-toolbar-title>
       <v-layout align-center justify-space-between>
         <v-spacer></v-spacer>
         <Logout/>
@@ -26,7 +28,7 @@
         <v-list-item-group
             active-class="blue--text text--accent-4"
         >
-          <v-list-item>
+          <v-list-item  v-on:click="$router.push('/').catch(err => {})">
             <v-list-item-icon>
               <v-icon>mdi-home</v-icon>
             </v-list-item-icon>
@@ -35,19 +37,19 @@
 
           <v-list-item v-on:click="$router.push('/reservation').catch(err => {})">
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>mdi-calendar-month</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ $t("reservation") }}</v-list-item-title>
           </v-list-item>
           <v-list-item v-on:click="$router.push('/ressources').catch(err => {})">
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>mdi-home-city</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ $t("ressources") }}</v-list-item-title>
           </v-list-item>
           <v-list-item v-on:click="$router.push('/check').catch(err => {})">
             <v-list-item-icon>
-              <v-icon>mdi-home</v-icon>
+              <v-icon>mdi-currency-usd</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ $t("check") }}</v-list-item-title>
           </v-list-item>

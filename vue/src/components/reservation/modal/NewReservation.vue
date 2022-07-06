@@ -10,7 +10,7 @@
         <template>
           <v-card>
             <v-toolbar
-                color="primary"
+                color="green"
                 dark
             >
               <v-btn
@@ -44,7 +44,7 @@
 
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-              color="blue"
+              color="green"
               dark
               v-bind="attrs"
               v-on="on"
@@ -113,7 +113,7 @@ export default {
         fiel.values = self.ressources.map(
             function (ressource) {
               let exist = ressource.reservations.filter((r) =>
-                  (self.fixDate(r.startAt).getTime() <= self.fixDate(self.reservation.startAt) || self.fixDate(r.startAt).getTime() < self.fixDate(self.reservation.startAt))
+                  (self.fixDate(r.startAt).getTime() <= self.fixDate(self.reservation.startAt) || self.fixDate(r.startAt).getTime() < self.fixDate(self.reservation.endAt))
                   && (self.fixDate(r.endAt).getTime() > self.fixDate(self.reservation.startAt) || self.fixDate(r.endAt).getTime() >= self.fixDate(self.reservation.startAt))
                   && (r.status !== 'Annuler'));
               if (exist.length === 0) {
@@ -130,6 +130,7 @@ export default {
       let self = this;
       let reservation = self.ressources.find((r) => r['@id'] === field);
       self.payment = reservation.price * ((this.fixDate(newVal.endAt) - this.fixDate(newVal.startAt)) / (1000 * 3600 * 24));
+      self.payment = self.payment >= 0 ? self.payment + reservation.price : 0;
 
     }
   },
@@ -212,6 +213,7 @@ export default {
           },
         },
         {
+          id:'btn',
           type: 'submit',
           buttonText: 'Valider'
         },
@@ -226,5 +228,8 @@ export default {
 fieldset {
   border: 0;
   padding: 10px 8px;
+}
+#btn{
+  background-color: green !important;
 }
 </style>

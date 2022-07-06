@@ -22,7 +22,7 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-                color="primary"
+                color="success"
                 dark
                 class="mb-2"
                 v-bind="attrs"
@@ -122,6 +122,7 @@ export default {
           required: true,
         },
         {
+          id:'btn',
           type: 'submit',
           buttonText: 'Valider'
         },
@@ -219,6 +220,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+#btn{
+  background-color: green !important;
+}
 </style>
