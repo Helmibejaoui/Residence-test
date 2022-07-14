@@ -12,4 +12,5 @@
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 /mysql/
+.idea
 ###< lexik/jwt-authentication-bundle ###

@@ -1,6 +1,4 @@
 
-]
--config/packages/lexik_jwt_authentication.yaml,6/5/65c26613ceabd0458d2b780362983469dc4fdec6
 Q
 !config/packages/api_platform.yaml,f/c/fc9b6d0b83d663d538e4b7ee5f9224da2f5c15eb
 M
@@ -19,3 +17,29 @@ L
 vue/src/store/auth.module.js,a/a/aa201f1db1e539628a0f94d441fe4459763077bf
 D
 config/services.yaml,8/7/87042d1f46b57381244d70e7a42feeb7710727dc
+G
+docker/Dockerfile-nginx,5/4/5474678e37a39b045ccbc4a260198aaad00ee782
+E
+docker/Dockerfile-php,4/2/4244b177ab063c7715a638475b6eb73dace97fae
+B
+vue/Dockerfile-vue,a/a/aa57cfa350b1fa97f8e6ea1b8628d063abe5cf14
+L
+src/OpenApi/JwtDecorator.php,4/1/4117ff88a991f657f66b0d3322fd67277c30a94e
+R
+"src/Controller/CheckController.php,6/4/64e00fbb353c3319f78a002be1eed2483cb40a3b
+X
+(src/Repository/ReservationRepository.php,7/5/7539e6cb894058edeb75cfa88163246efd1a5255
+J
+src/Entity/Reservation.php,c/d/cd9ad603adcdfcdd56cddc95e819279b68f5fd3f
+H
+src/Entity/Ressource.php,e/0/e089cae6a9103c956f0da4a438b803dff15a4cfe
+F
+vue/src/local/index.js,2/7/272b803c996253629c0ea78ed43cd7ca3fa4ecf0
+S
+#vue/src/store/reservation.module.js,a/0/a053530d0719e35de1329ec37af6a52194fa7e83
+L
+src/Service/CheckService.php,d/3/d3bb1bbaa0d3aed171a74daccf8ee9d8ceeb1f1c
+Q
+!vue/src/store/ressource.module.js,c/9/c9e7d46e29aa4237a416d2211df6ae8f051f743c
+]
+-vue/src/components/reservation/TodayCheck.vue,1/7/170314a807f252e4c587dd5f9bedfa4418722fd9

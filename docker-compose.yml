@@ -12,6 +12,20 @@ services:
       - '4306:3306'
     volumes:
       - my-db:/var/lib/mysql
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin:latest
+    ports:
+      - "8082:80"
+    environment:
+      MYSQL_ROOT_PASSWORD: root #(Required) set the password for the root superuser account.
+      PMA_HOST: database # define the address/hostname of the mysql server eg mysql container name.
+      PMA_USER: root # this is the root user to login on startup
+      PMA_PASSWORD: root # use the root password to login on startup.
+      # Create a new user on startup (optional)
+      # MYSQL_USER: newuser
+      # MYSQL_PASSWORD: mypassword
+
   php:
     container_name: php
     build:

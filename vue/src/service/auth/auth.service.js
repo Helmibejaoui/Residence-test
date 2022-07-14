@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let url = 'http://localhost:8000';
+let url = process.env.VUE_APP_API;
 
 class AuthService {
 

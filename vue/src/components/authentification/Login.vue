@@ -64,15 +64,7 @@ export default {
       await this.$router.push("/");
     }
   },
-  created() {
-    if (this.loggedIn) {
-      this.$router.push("/");
-    }
-  },
   computed: {
-    loggedIn() {
-      return this.$store.state.auth.status.loggedIn;
-    },
     error() {
       return this.$store.state.auth.error;
     }
